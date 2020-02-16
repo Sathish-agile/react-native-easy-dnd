@@ -140,6 +140,7 @@ export function draggable(
     measure() {
       if (this.element) {
         this.element.measureInWindow((x, y, width, height) => {
+          this.setState({ x, y, width, height });
           this.props.__dndContext.updateDraggable(this.identifier, {
             layout: { x, y, width, height }
           });
@@ -149,7 +150,7 @@ export function draggable(
 
     render() {
       const { children } = this.props;
-
+      const { x, y, width, height } = this.state;
       return children({
         viewProps: {
           onLayout: this.onLayout,
@@ -158,6 +159,7 @@ export function draggable(
           style: {
             transform: this.state.pan.getTranslateTransform()
           },
+          location: { x, y, width, height },
           ...this.panResponder.panHandlers
         }
       });
